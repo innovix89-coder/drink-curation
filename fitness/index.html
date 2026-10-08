@@ -330,6 +330,7 @@ body.v-fitness{
 .v-fitness .thumb{border-radius:0;background:#18181b}
 .v-fitness .row .spec{font-family:var(--f-mono);font-size:12px}
 .v-fitness .row .spec b{color:#fff}
+.v-fitness .row .spec .won,.v-fitness .row .spec .won b{color:var(--fx-acc)}
 .v-fitness .ana{border-radius:0;border-color:#2a2a2e;background:#111113}
 .v-fitness .facts b{font:800 22px/1 "Pretendard Variable",sans-serif;color:#fff}
 .v-fitness .facts b.ok{color:var(--fx-acc)}
@@ -591,16 +592,16 @@ var COPY = {
     finalDesc:"여러분의 답변으로 서비스를 만듭니다. 설문 마지막에 연락처를 남기시면 출시 소식을 가장 먼저 알려드려요."
   },
   fitness: {
-    title:"피트니스 음료 스펙 비교 사전신청",
-    logo:"음료 스펙 비교", strip:"약 3분 설문 참여하고 출시 소식 받기",
-    search:"단백질 20g↑ · 당류 0g · 120kcal↓",
-    sideTitle:"스펙으로 고르는 음료", sideDesc:"약 3분 설문에 참여하고<br>출시 소식을 가장 먼저 받아보세요",
-    eyebrow:"PROTEIN · ZERO · FITNESS DRINK", hcta:"3분 설문 참여",
-    stats:[["20","g+","필터 예시 · 단백질"],["0","g","필터 예시 · 당류"],["120","kcal↓","필터 예시 · 열량"],["100","원↓","필터 예시 · 단백질 1g당"]],
-    h1:"단백질 <em>20g</em> 이상?<br>당류 <em>0g</em>?",
-    sub:"시중 프로틴·제로 음료부터 숨은 브랜드까지, 내 피트니스 목적에 맞춰 1초 만에 필터링하세요.",
-    meta:["단백질·당류·열량","대체당 종류","단백질 1g당 가격"],
-    cta:"내 피트니스 목표에 딱 맞는 음료 추천받기",
+    title:"건강음료 스펙·가성비 비교 사전신청",
+    logo:"건강음료 큐레이션", strip:"약 3분 설문 참여하고 출시 소식 받기",
+    search:"단백질 1g당 100원↓ · 단백질 20g↑ · 당류 0g",
+    sideTitle:"스펙과 가성비로 고르는 건강음료", sideDesc:"약 3분 설문에 참여하고<br>출시 소식을 가장 먼저 받아보세요",
+    eyebrow:"PROTEIN · ZERO · 가성비", hcta:"3분 설문 참여",
+    stats:[["100","원↓","가성비 필터 예시 · 단백질 1g당"],["20","g+","필터 예시 · 단백질"],["0","g","필터 예시 · 당류"],["120","kcal↓","필터 예시 · 열량"]],
+    h1:"단백질 <em>20g</em>, 당류 <em>0g</em>,<br><em>가성비</em>까지.",
+    sub:"시중 프로틴·제로 건강음료를 단백질 1g당 가격으로 나란히 비교하세요. 숨은 브랜드까지, 내 목표에 맞는 가성비 한 병을 찾아드립니다.",
+    meta:["단백질 1g당 가격","단백질·당류·열량","대체당 종류"],
+    cta:"내 목표에 딱 맞는 가성비 건강음료 추천받기",
     slides:[
       {img:"fh",t:"",s:"",href:"#demo"}
     ],
@@ -610,19 +611,19 @@ var COPY = {
       ["shield","신뢰성","말이 제각각이라 뭘 믿을지 모르겠다","‘고단백’이라 써 있어도 성분표 숫자가 다를 때가 있습니다.","f2"],
       ["list","간편성","성분표가 복잡해서 비교가 어렵다","용량도 단위도 제각각이라 나란히 놓고 보기 힘듭니다.","f6"]
     ],
-    demoSmall:"02 / FILTER", demoTitle:"내 기준에 <span class=\"hl\">맞는 음료</span>", dd:"프로틴·제로 ▾",
+    demoSmall:"02 / FILTER", demoTitle:"가성비로 거르는 <span class=\"hl\">건강음료</span>", dd:"단백질 1g당 가격순 ▾",
     anaTitle:"숫자는 <span class=\"hl\">원문 그대로</span> 옮깁니다",
     ana:{nm:"샘플 A 프로틴 드링크 · 330ml",br:"가상 브랜드 · 프로틴 음료",bottle:["#3b5bdb","bottle"],
-      facts:[["단백질","25g",1],["당류","0g",1],["열량","110kcal"],["1g당","96원"]],
+      facts:[["1g당 가격","96원",1],["단백질","25g",1],["당류","0g",1],["열량","110kcal"]],
       ing:[["정제수"],["분리유청단백"],["우유단백농축물"],["코코아분말"],["수크랄로스",1],["아세설팜칼륨",1],["카라기난"],["합성향료"]],
       ingNote:"대체당은 따로 표시"},
-    how:["제품 영양성분표 원문 기준","1병·100ml 기준으로 환산","출처와 확인 날짜 함께 표기","새로 나온 프로틴·제로 음료는 매주 추가"],
-    indiePhoto:"스펙 좋은 작은 브랜드도<br>같은 표에서",
+    how:["단백질 1g당 가격·100ml당 가격을 자동 계산","제품 영양성분표 원문 기준","1병·100ml 기준으로 환산","출처와 확인 날짜 함께 표기","새로 나온 프로틴·제로 음료는 매주 추가"],
+    indiePhoto:"스펙도 가성비도 좋은<br>작은 브랜드까지 같은 표에서",
     brands:[
       {nm:"가상 브랜드 ‘리프트랩’",d:"고단백 RTD",c:"#2f4fbf",items:[["프로틴 초코","단백질 25g · 당류 0g","#5a3d2b","bottle"],["프로틴 커피","단백질 22g · 당류 0g","#8a5a3b","bottle"],["프로틴 바닐라","단백질 20g · 당류 1g","#e2cf9a","bottle"]]},
       {nm:"가상 브랜드 ‘제로핏’",d:"제로 에너지·이온",c:"#e8590c",items:[["제로 이온","0kcal · 알룰로스","#56b4e9","can"],["제로 에너지","0kcal · 수크랄로스 무첨가","#f08c00","can"],["BCAA 워터","당류 0g","#20c997","can"]]}
     ],
-    finalTitle:"제로 음료 성분 분석표와 비교표, 꾸준히 받아보고 싶다면",
+    finalTitle:"가성비까지 따진 건강음료 비교표, 꾸준히 받아보고 싶다면",
     finalDesc:"짧은 설문에 답해 주시고, 원하시면 마지막에 이메일을 남겨 주세요. 출시 소식을 보내드려요."
   }
 };
@@ -643,7 +644,7 @@ var DEMO = {
     ]
   },
   fitness: {
-    filters:[["p20","단백질 20g↑"],["s0","당류 0g"],["k120","120kcal↓"],["nosuc","수크랄로스 제외"],["g100","1g당 100원↓"]],
+    filters:[["g100","가성비 1g당 100원↓"],["p20","단백질 20g↑"],["s0","당류 0g"],["k120","120kcal↓"],["nosuc","수크랄로스 제외"]],
     items:[
       {b:"샘플",n:"프로틴 드링크 A",p:25,s:0,k:110,sw:"수크랄로스",won:96,c:"#3b5bdb",kd:"bottle"},
       {b:"샘플",n:"프로틴 워터 B",p:20,s:0,k:95,sw:"알룰로스",won:118,c:"#74c0fc",kd:"bottle",nw:1},
@@ -803,11 +804,12 @@ var ICONS = {
     function pass(it){ return Object.keys(on).every(function(k){ if(!on[k]) return true; return type==="fitness" ? D.test[k](it) : !!it.f[k]; }); }
     function draw(){
       var list = D.items.filter(pass);
+      if (type === "fitness") list = list.slice().sort(function(a,b){ return a.won - b.won; });
       cnt.innerHTML = "조건에 맞는 예시 <b>" + list.length + "개</b>";
       if (!list.length){ res.innerHTML = '<div class="empty">조건에 맞는 예시가 없어요. 조건을 하나 빼 보세요.</div>'; return; }
       res.innerHTML = list.map(function(i){
         var spec = type === "fitness"
-          ? '<span>단백질 <b>'+i.p+'g</b></span><span>당류 <b>'+i.s+'g</b></span><span><b>'+i.k+'</b>kcal</span><span>'+esc(i.sw)+'</span><span>1g당 <b>'+i.won+'원</b></span>'
+          ? '<span class="won">단백질 1g당 <b>'+i.won+'원</b></span><span>단백질 <b>'+i.p+'g</b></span><span>당류 <b>'+i.s+'g</b></span><span><b>'+i.k+'</b>kcal</span><span>'+esc(i.sw)+'</span>'
           : i.t.map(function(t){ return "<span>" + esc(t) + "</span>"; }).join("");
         return '<div class="row"><div class="thumb">' + bottleSVG(i.c, i.k === "can" || i.kd === "can" ? "can" : "bottle") + '</div><div><div class="nm"><i>' + esc(i.b) + '</i>' + esc(i.n) + (i.nw ? '<span class="new">NEW</span>' : '') + '</div><div class="spec">' + spec + '</div></div></div>';
       }).join("");
@@ -865,7 +867,7 @@ var ICONS = {
       stepEl.textContent = "설문 안내";
       var d = el("div","intro");
       d.appendChild(el("p","qtag","소요시간 " + S.time));
-      var h = el("h3","qtitle"); h.id = "qtitle"; h.textContent = type === "fitness" ? "운동 음료, 어떻게 고르고 계세요?" : "평소 음료 고르는 경험을 들려주세요"; d.appendChild(h);
+      var h = el("h3","qtitle"); h.id = "qtitle"; h.textContent = type === "fitness" ? "건강음료, 어떻게 고르고 계세요?" : "평소 음료 고르는 경험을 들려주세요"; d.appendChild(h);
       d.appendChild(el("p",null,esc(S.intro)));
       d.appendChild(el("ul",null,"<li>"+n+"개 문항, 대부분 선택형입니다</li><li>응답은 서비스 기획에만 사용됩니다</li><li>연락처는 마지막에 원하실 때만 입력합니다</li>"));
       body.appendChild(d);
