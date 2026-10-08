@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://images.unsplash.com">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=JetBrains+Mono:wght@500;700&display=swap">
 
 
 <style>
@@ -240,6 +241,134 @@ a{color:inherit;text-decoration:none}
 .done h3{font-size:20px;margin:0;letter-spacing:-.03em}
 .done p{margin:0;color:var(--g6);font-size:14px}
 .done .btn{width:100%;max-width:320px}
+
+/* ---------- 공통 보조 ---------- */
+.hcta,.cta2{display:none}
+.cta-row{display:grid;gap:8px}
+.stats[hidden]{display:none}
+
+/* =========================================================
+   B안 · 헬창 스킨 — 다크 스튜디오형: 풀블리드 사진 히어로, 블랙 디스플레이 서체, 오렌지 포인트, 모노 넘버링
+   ========================================================= */
+body.v-fitness{
+  --fx-bg:#0b0b0c; --fx-panel:#141416; --fx-acc:#ff4a1c; --fx-ink:#f4f4f2;
+  --mint:var(--fx-acc); --teal:var(--fx-acc); --mint-50:#24130d;
+  --ink:#f4f4f2; --ink-2:#d6d6d6; --g6:#a3a3a8; --g9:#76767b;
+  --line:#222226; --line-2:#2e2e33; --out:#0b0b0c; --thumb:#18181b;
+  --f-disp:"Black Han Sans","Pretendard Variable",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  --wrap:max(20px,calc((100% - 1120px) / 2));
+  background:var(--fx-bg);color:var(--fx-ink);color-scheme:dark;
+}
+.v-fitness .side,.v-fitness .strip,.v-fitness .search,.v-fitness .tabs,.v-fitness .pager,.v-fitness .slide .cap,.v-fitness .meta{display:none}
+.v-fitness .app{max-width:none;background:var(--fx-bg)}
+.v-fitness .head{background:rgba(11,11,12,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.v-fitness .headrow{padding:14px var(--wrap);justify-content:space-between}
+.v-fitness .logo{font-size:17px;letter-spacing:-.01em;gap:10px}
+.v-fitness .logo svg{display:none}
+.v-fitness .logo::before{content:"";width:6px;height:22px;background:var(--fx-acc)}
+.v-fitness .hcta{display:inline-flex;appearance:none;border:0;cursor:pointer;background:var(--fx-acc);color:#fff;font-weight:700;font-size:14px;padding:10px 16px;border-radius:0}
+
+/* 히어로: 사진 위에 헤드라인 겹치기 */
+.v-fitness main{display:grid}
+.v-fitness main>*{grid-column:1;min-width:0}
+.v-fitness .banner{grid-row:1;padding:0}
+.v-fitness .slides{border-radius:0}
+.v-fitness .slide{aspect-ratio:auto;height:min(88vh,760px);min-height:560px}
+.v-fitness .slide img{object-position:65% 40%}
+.v-fitness .slide::after{background:linear-gradient(90deg,rgba(11,11,12,.94) 0%,rgba(11,11,12,.7) 45%,rgba(11,11,12,.15) 100%),linear-gradient(0deg,var(--fx-bg) 0%,rgba(11,11,12,0) 35%)}
+.v-fitness .lead{grid-row:1;z-index:2;align-self:end;padding:120px var(--wrap) clamp(48px,8vw,88px);gap:18px;pointer-events:none}
+.v-fitness .lead>*{pointer-events:auto}
+.v-fitness .lead .eb{font:700 12px/1 var(--f-mono);letter-spacing:.22em;color:var(--fx-acc);display:flex;align-items:center;gap:14px}
+.v-fitness .lead .eb::before{content:"";width:40px;height:1px;background:var(--fx-acc)}
+.v-fitness .lead h1{font:400 clamp(46px,9vw,100px)/1.08 var(--f-disp);letter-spacing:-.01em;color:#fff;max-width:11em}
+.v-fitness .lead h1 em{color:var(--fx-acc)}
+.v-fitness .lead p.sub{color:#c9c9cc;max-width:32em;font-size:15.5px;line-height:1.75}
+.v-fitness .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.v-fitness .btn-cta{width:auto;margin:0;border-radius:0;height:54px;padding:0 26px;background:var(--fx-acc);font-weight:700}
+.v-fitness .btn-cta::after{content:" →"}
+.v-fitness .cta2{display:inline-flex;align-items:center;height:54px;padding:0 22px;border:1px solid #3a3a3f;color:#fff;font-weight:600;font-size:15px}
+.v-fitness .cta2:hover{border-color:#fff}
+
+/* 지표 띠 */
+.v-fitness .stats{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line);padding-inline:var(--wrap);background:#0f0f11}
+.v-fitness .stats div{padding:28px 18px 26px;display:grid;gap:6px;border-left:1px solid var(--line)}
+.v-fitness .stats div:first-child{border-left:0;padding-left:0}
+.v-fitness .stats b{font:800 clamp(30px,4vw,44px)/1 "Pretendard Variable",sans-serif;letter-spacing:-.03em;color:#fff;font-variant-numeric:tabular-nums}
+.v-fitness .stats em{font-style:normal;color:var(--fx-acc);font-size:.62em;margin-left:2px}
+.v-fitness .stats span{font-size:12px;color:var(--g9)}
+@media (max-width:720px){.v-fitness .stats{grid-template-columns:repeat(2,1fr)}.v-fitness .stats div{border-left:0;padding-left:0}.v-fitness .stats div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* 섹션 */
+.v-fitness .sec{padding:clamp(64px,9vw,112px) var(--wrap) 16px}
+.v-fitness .sec + .sec{border-top:1px solid var(--line)}
+.v-fitness .sec-t{margin-bottom:32px}
+.v-fitness .sec-t small{font:700 11.5px/1 var(--f-mono);letter-spacing:.22em;color:var(--fx-acc);display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.v-fitness .sec-t small::after{content:"";width:56px;height:1px;background:#3a3a3f}
+.v-fitness .sec-t h2{font:400 clamp(30px,5vw,52px)/1.18 var(--f-disp);letter-spacing:0;color:#fff}
+.v-fitness .mock{border-color:#333;color:#8a8a8f;border-radius:0;font-family:var(--f-mono);font-size:10.5px}
+
+/* 고민 → 사진 카드 */
+.v-fitness .pains{grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:760px){.v-fitness .pains{grid-template-columns:1fr}}
+.pcard{position:relative;overflow:hidden;background:var(--thumb)}
+.pcard figure{margin:0;aspect-ratio:4/5;background:#1b1b1e}
+.pcard img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform .5s}
+.pcard:hover img{transform:scale(1.04)}
+.pcard::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,11,12,.96) 8%,rgba(11,11,12,.2) 60%,rgba(11,11,12,0))}
+.pc-t{position:absolute;left:20px;right:20px;bottom:20px;z-index:1;display:grid;gap:6px}
+.pc-t .tag{font:700 11px/1 var(--f-mono);letter-spacing:.18em;color:var(--fx-acc)}
+.pc-t b{font:400 22px/1.3 var(--f-disp);color:#fff}
+.pc-t span{font-size:13.5px;color:#bdbdc2;line-height:1.55}
+
+/* 데모·분석·브랜드 */
+.v-fitness .ctrl{margin-inline:0;padding-inline:0}
+.v-fitness .dd{background:var(--fx-acc);border-radius:0}
+.v-fitness .fchip{background:transparent;border-color:#333;color:#d0d0d4;border-radius:0;font-family:var(--f-mono);font-size:12.5px}
+.v-fitness .fchip[aria-pressed="true"]{background:#fff;color:#0b0b0c;border-color:#fff}
+.v-fitness .row{grid-template-columns:72px 1fr}
+.v-fitness .thumb{border-radius:0;background:#18181b}
+.v-fitness .row .spec{font-family:var(--f-mono);font-size:12px}
+.v-fitness .row .spec b{color:#fff}
+.v-fitness .ana{border-radius:0;border-color:#2a2a2e;background:#111113}
+.v-fitness .facts b{font:800 22px/1 "Pretendard Variable",sans-serif;color:#fff}
+.v-fitness .facts b.ok{color:var(--fx-acc)}
+.v-fitness .ing-list span{border-radius:0;background:#1b1b1e;color:#cfcfd3}
+.v-fitness .ing-list span.k{background:#2a140c;color:var(--fx-acc)}
+.v-fitness .how div::before{border-radius:0;background:var(--fx-acc)}
+.v-fitness .photo-card{border-radius:0;aspect-ratio:21/9}
+.v-fitness .photo-card p{font:400 clamp(22px,3.4vw,34px)/1.3 var(--f-disp)}
+.v-fitness .bitem .thumb{border-radius:0}
+.v-fitness .blogo{border-radius:0}
+@media (min-width:900px){.v-fitness #demo .rows,.v-fitness #ana .ana{max-width:760px}}
+
+/* 마무리 CTA */
+.v-fitness .final{margin:72px var(--wrap) 40px;border-radius:0;background:var(--fx-acc);padding:clamp(32px,5vw,56px);gap:12px}
+.v-fitness .final b{font:400 clamp(26px,4vw,42px)/1.25 var(--f-disp);color:#0b0b0c}
+.v-fitness .final p{color:#2a0e05;font-size:15px}
+.v-fitness .final .btn-cta{background:#0b0b0c;color:#fff;justify-self:start}
+
+/* 하단 바 */
+.v-fitness .bar{max-width:none;background:rgba(11,11,12,.95);border-top:1px solid var(--line);padding-inline:var(--wrap);justify-content:flex-end}
+.v-fitness .bar button{border-radius:0}
+.v-fitness .bar .ol{flex:0 0 auto;padding:0 22px;background:transparent;color:#fff;border-color:#3a3a3f}
+.v-fitness .bar .fl{flex:0 1 360px;background:var(--fx-acc)}
+@media (max-width:640px){.v-fitness .bar .fl{flex:1}}
+
+/* 설문 시트 */
+.v-fitness .sheet{background:var(--fx-panel);border-radius:0;color:var(--fx-ink)}
+.v-fitness .sheet .x{color:#fff}
+.v-fitness .opt{background:transparent}
+.v-fitness .opt .box{border-color:#55555b}
+.v-fitness .opt.multi .box,.v-fitness .opt .box{border-radius:0}
+.v-fitness .other-in,.v-fitness .txt,.v-fitness .field input{background:#0f0f11;border-color:#2e2e33;color:#fff;border-radius:0}
+.v-fitness .scale button{background:transparent;border-radius:0}
+.v-fitness .btn{border-radius:0}
+.v-fitness .btn.ghost{background:transparent;color:#fff;border-color:#3a3a3f}
+.v-fitness .btn.primary:disabled{background:#333;color:#888}
+.v-fitness .intro ul,.v-fitness .consent{background:#0f0f11;border-radius:0}
+.v-fitness .qtag{font-family:var(--f-mono);letter-spacing:.12em}
+.v-fitness .qtitle{font-weight:700}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -262,6 +391,7 @@ a{color:inherit;text-decoration:none}
     <div class="headrow">
       <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5 7 9 11.5 9 16.5A9 9 0 0 1 7 19.5C7 14.5 11 10 16 3z" fill="#19D7D2"/></svg><span data-t="logo"></span></div>
       <button class="search" type="button" id="search"><span data-t="search"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+      <button class="hcta" type="button" data-open="header" data-t="hcta"></button>
     </div>
     <nav class="tabs" aria-label="섹션">
       <a href="#home" class="on">홈</a>
@@ -282,8 +412,10 @@ a{color:inherit;text-decoration:none}
       <h1 data-t="h1"></h1>
       <p class="sub" data-t="sub"></p>
       <div class="meta" id="meta"></div>
-      <button class="btn-cta" type="button" data-open="hero" data-t="cta"></button>
+      <div class="cta-row"><button class="btn-cta" type="button" data-open="hero" data-t="cta"></button><a class="cta2" href="#demo">조건 검색 미리보기</a></div>
     </div>
+
+    <div class="stats" id="stats" hidden></div>
 
     <section class="sec" aria-labelledby="pain-t">
       <div class="sec-t"><div><small data-t="painSmall"></small><h2 id="pain-t" data-t="painTitle"></h2></div></div>
@@ -298,13 +430,13 @@ a{color:inherit;text-decoration:none}
     </section>
 
     <section class="sec" id="ana" aria-labelledby="ana-t">
-      <div class="sec-t"><div><small>성분 분석 미리보기</small><h2 id="ana-t" data-t="anaTitle"></h2></div><span class="mock">목업 · 가상 예시</span></div>
+      <div class="sec-t"><div><small data-t="anaSmall"></small><h2 id="ana-t" data-t="anaTitle"></h2></div><span class="mock">목업 · 가상 예시</span></div>
       <div class="ana" id="anaCard"></div>
       <div class="how" id="how"></div>
     </section>
 
     <section class="sec" id="indie" aria-labelledby="indie-t">
-      <div class="sec-t"><div><small>요즘 눈여겨볼</small><h2 id="indie-t">숨은 <span class="hl">인디 브랜드</span></h2></div><span class="mock">가상 브랜드</span></div>
+      <div class="sec-t"><div><small data-t="indieSmall"></small><h2 id="indie-t">숨은 <span class="hl">인디 브랜드</span></h2></div><span class="mock">가상 브랜드</span></div>
       <div class="photo-card"><img data-img-slot="indie" alt=""><p data-t="indiePhoto"></p></div>
       <div id="brands"></div>
     </section>
@@ -359,7 +491,10 @@ var IMGS = {
   f1:{id:"photo-1679384322991-f6f16a34aaa9",by:"gold touch nutrition",c:"#bdbdbd"},
   f2:{id:"photo-1676655079738-af54dfd6318e",by:"Brendan Stephens",c:"#260c0c"},
   f3:{id:"photo-1680265346124-ba1b82b19d5f",by:"gold touch nutrition",c:"#d0d0d0"},
-  f4:{id:"photo-1600679472233-eabc13b79f07",by:"Nigel Msipa",c:"#26260c"}
+  f4:{id:"photo-1600679472233-eabc13b79f07",by:"Nigel Msipa",c:"#26260c"},
+  fh:{id:"photo-1526403223670-2aa44aaface2",by:"Victor Freitas",c:"#0c2626"},
+  f5:{id:"photo-1744551472743-efc22070ec1a",by:"Shan A. Rajpoot",c:"#404040"},
+  f6:{id:"photo-1734630341082-0fec0e10126c",by:"Jason Grant",c:"#262626"}
 };
 
 /* ---------- 설문 정의 ---------- */
@@ -433,7 +568,7 @@ var COPY = {
       {img:"w4",t:"무카페인이면서 당 0g,<br>조건을 겹쳐서 찾기",s:"조건 검색 미리보기",href:"#demo"},
       {img:"w2",t:"성분표, 이제<br>하나씩 뒤집지 마세요",s:"성분 분석 미리보기",href:"#ana"}
     ],
-    painSmall:"음료 고를 때", painTitle:"이런 적 <span class=\"hl\">있으셨죠</span>",
+    painSmall:"음료 고를 때", painTitle:"이런 적 <span class=\"hl\">있으셨죠</span>", anaSmall:"성분 분석 미리보기", indieSmall:"요즘 눈여겨볼", hcta:"설문 참여",
     pains:[
       ["list","번거로움","성분표를 하나하나 비교해야 해요","당·카페인·첨가물 조건에 맞는지 뒷면을 일일이 확인합니다."],
       ["filter","필터 부재","내 조건으로 걸러주는 곳이 없어요","‘무카페인이면서 고단백’ 같은 조합으로 한 번에 못 찾습니다."],
@@ -460,23 +595,22 @@ var COPY = {
     logo:"음료 스펙 비교", strip:"약 3분 설문 참여하고 출시 소식 받기",
     search:"단백질 20g↑ · 당류 0g · 120kcal↓",
     sideTitle:"스펙으로 고르는 음료", sideDesc:"약 3분 설문에 참여하고<br>출시 소식을 가장 먼저 받아보세요",
-    eyebrow:"프로틴 · 제로 · 피트니스 음료",
+    eyebrow:"PROTEIN · ZERO · FITNESS DRINK", hcta:"3분 설문 참여",
+    stats:[["20","g+","필터 예시 · 단백질"],["0","g","필터 예시 · 당류"],["120","kcal↓","필터 예시 · 열량"],["100","원↓","필터 예시 · 단백질 1g당"]],
     h1:"단백질 <em>20g</em> 이상?<br>당류 <em>0g</em>?",
     sub:"시중 프로틴·제로 음료부터 숨은 브랜드까지, 내 피트니스 목적에 맞춰 1초 만에 필터링하세요.",
     meta:["단백질·당류·열량","대체당 종류","단백질 1g당 가격"],
     cta:"내 피트니스 목표에 딱 맞는 음료 추천받기",
     slides:[
-      {img:"f2",t:"유튜브 티어 영상, 쇼핑몰 랭킹<br>그래서 뭘 사야 하죠?",s:"조건 검색 미리보기",href:"#demo"},
-      {img:"f1",t:"단백질·칼로리·대체당<br>스펙으로 비교",s:"성분 분석 미리보기",href:"#ana"},
-      {img:"f4",t:"검색 시간은 줄이고<br>득근에만 집중",s:"인디 브랜드 보기",href:"#indie"}
+      {img:"fh",t:"",s:"",href:"#demo"}
     ],
-    painSmall:"성분 정보 찾을 때", painTitle:"이게 <span class=\"hl\">제일 불편</span>하죠",
+    painSmall:"01 / PROBLEM", painTitle:"이게 <span class=\"hl\">제일 불편</span>하죠", anaSmall:"03 / ANALYSIS", indieSmall:"04 / INDIE BRAND",
     pains:[
-      ["search","접근성","어디서 찾아야 할지 모르겠다","정보가 영상, 커뮤니티, 쇼핑몰 후기에 흩어져 있습니다."],
-      ["shield","신뢰성","말이 제각각이라 뭘 믿을지 모르겠다","‘고단백’이라 써 있어도 성분표 숫자가 다를 때가 있습니다."],
-      ["list","간편성","성분표가 복잡해서 비교가 어렵다","용량도 단위도 제각각이라 나란히 놓고 보기 힘듭니다."]
+      ["search","접근성","어디서 찾아야 할지 모르겠다","정보가 영상, 커뮤니티, 쇼핑몰 후기에 흩어져 있습니다.","f5"],
+      ["shield","신뢰성","말이 제각각이라 뭘 믿을지 모르겠다","‘고단백’이라 써 있어도 성분표 숫자가 다를 때가 있습니다.","f2"],
+      ["list","간편성","성분표가 복잡해서 비교가 어렵다","용량도 단위도 제각각이라 나란히 놓고 보기 힘듭니다.","f6"]
     ],
-    demoSmall:"조건을 눌러 보세요", demoTitle:"내 기준에 <span class=\"hl\">맞는 음료</span>", dd:"프로틴·제로 ▾",
+    demoSmall:"02 / FILTER", demoTitle:"내 기준에 <span class=\"hl\">맞는 음료</span>", dd:"프로틴·제로 ▾",
     anaTitle:"숫자는 <span class=\"hl\">원문 그대로</span> 옮깁니다",
     ana:{nm:"샘플 A 프로틴 드링크 · 330ml",br:"가상 브랜드 · 프로틴 음료",bottle:["#3b5bdb","bottle"],
       facts:[["단백질","25g",1],["당류","0g",1],["열량","110kcal"],["1g당","96원"]],
@@ -585,9 +719,15 @@ var ICONS = {
   }
 
   /* 고민 */
-  $("pains").innerHTML = C.pains.map(function(p){
+  $("pains").innerHTML = C.pains.map(function(p, i){
+    if (p[4]) return '<div class="pcard"><figure><img alt="" loading="lazy" data-pimg="' + p[4] + '"></figure><div class="pc-t"><span class="tag">' + String(i+1).padStart(2,"0") + ' · ' + esc(p[1]) + '</span><b>' + esc(p[2]) + '</b><span>' + esc(p[3]) + '</span></div></div>';
     return '<div class="pain"><span class="ic">' + ICONS[p[0]] + '</span><div><span class="tag">' + esc(p[1]) + '</span><b>' + esc(p[2]) + '</b><span>' + esc(p[3]) + '</span></div></div>';
   }).join("");
+  document.querySelectorAll("[data-pimg]").forEach(function(im){ setImg(im, im.dataset.pimg); });
+  if (C.stats){
+    $("stats").hidden = false;
+    $("stats").innerHTML = C.stats.map(function(st){ return '<div><b>' + esc(st[0]) + '<em>' + esc(st[1]) + '</em></b><span>' + esc(st[2]) + '</span></div>'; }).join("");
+  }
 
   /* 성분 분석 카드 */
   var an = C.ana;
