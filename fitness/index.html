@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>음료 큐레이션 사전신청</title>
+<meta name="description" content="시중 제로·고단백 기능성 음료부터 숨은 인디 브랜드까지, 성분과 목적대로 비교하고 추천받는 서비스를 준비하고 있습니다.">
+<meta property="og:title" content="원하는 성분대로, 한눈에 비교하는 건강음료 큐레이션">
+<meta property="og:description" content="1분 설문에 참여하고 출시 소식을 가장 먼저 받아보세요.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c5 7 9 11.5 9 16.5A9 9 0 0 1 7 19.5C7 14.5 11 10 16 3z' fill='%2319D7D2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
+
+<style>
+/* Layout: 커머스 앱 셸 — 600px 단일 컬럼(흰 바탕)을 회색 바깥 위에 띄우고, 1100px 이상에서 왼쪽 여백에 안내 패널. 하단 고정 CTA 바 */
+:root{
+  --mint:#19d7d2;       /* 채움 버튼 */
+  --teal:#00a5aa;       /* 강조 텍스트·외곽선 */
+  --mint-50:#eefbfb;    /* 띠 배너·하이라이트 바탕 */
+  --ink:#111111;
+  --ink-2:#3d3d3d;      /* 다크 필 칩 */
+  --g6:#666666;
+  --g9:#999999;
+  --line:#f2f2f2;
+  --line-2:#e8e8e8;
+  --out:#f5f5f5;        /* 컬럼 바깥 */
+  --thumb:#f7f7f7;
+  --red:#ff5555;
+  --accent:var(--mint);
+  --f-body:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  --col:600px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--out);color:var(--ink);font:400 15px/1.55 var(--f-body);word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* ---------- 셸 ---------- */
+.app{max-width:var(--col);margin:0 auto;background:#fff;min-height:100vh;position:relative;padding-bottom:92px}
+.strip{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--mint-50);color:var(--teal);font-size:14px;font-weight:600;padding:12px 20px}
+.strip button{appearance:none;border:0;background:none;cursor:pointer;color:var(--teal);padding:0;font-weight:600;display:inline-flex;align-items:center;gap:4px;text-align:left}
+.strip .x{font-size:20px;line-height:1;font-weight:300}
+.head{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#fff}
+.headrow{display:flex;align-items:center;gap:12px;padding:12px 20px 10px}
+.logo{display:flex;align-items:center;gap:6px;font-weight:800;font-size:18px;letter-spacing:-.03em;flex:none}
+.logo svg{width:22px;height:22px}
+.search{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--line);border:0;border-radius:999px;padding:10px 14px 10px 16px;color:var(--g9);font-size:13.5px;cursor:pointer;text-align:left}
+.search span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search svg{width:20px;height:20px;flex:none;color:var(--ink)}
+.tabs{display:flex;gap:20px;padding:0 20px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{font-size:14px;font-weight:500;color:var(--g6);padding:8px 0 10px;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a.on{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+
+/* ---------- 배너 캐러셀 ---------- */
+.banner{padding:16px 16px 0}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;position:relative;aspect-ratio:16/10;overflow:hidden;color:#fff}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.62) 100%)}
+.slide .cap{position:absolute;left:20px;right:20px;bottom:18px;z-index:1;display:grid;gap:6px}
+.slide .cap b{font-size:clamp(20px,5vw,26px);line-height:1.3;font-weight:700;letter-spacing:-.03em;text-wrap:balance}
+.slide .cap span{font-size:13.5px;opacity:.92;display:inline-flex;align-items:center;gap:2px}
+.pager{position:absolute;left:30px;top:28px;z-index:2;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.72);color:var(--ink);padding:2px 9px;border-radius:99px;font-variant-numeric:tabular-nums}
+.banner-wrap{position:relative}
+
+/* ---------- 섹션 공통 ---------- */
+.sec{padding:36px 20px 8px}
+.sec + .sec{border-top:8px solid var(--line)}
+.sec-t{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sec-t small{display:block;font-size:12px;color:var(--g6);margin-bottom:2px}
+.sec-t h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.03em;line-height:1.35;text-wrap:balance}
+.hl{color:var(--teal)}
+.chev{width:22px;height:22px;flex:none;color:var(--ink)}
+.mock{font-size:11px;font-weight:600;color:var(--g9);border:1px solid var(--line-2);border-radius:4px;padding:2px 6px;white-space:nowrap}
+
+/* ---------- 헤드라인 ---------- */
+.lead{padding:24px 20px 28px;display:grid;gap:12px}
+.lead .eb{font-size:13px;font-weight:600;color:var(--teal);margin:0}
+.lead h1{margin:0;font-size:clamp(24px,6.4vw,30px);line-height:1.36;font-weight:700;letter-spacing:-.035em;text-wrap:balance}
+.lead h1 em{font-style:normal;color:var(--teal)}
+.lead p.sub{margin:0;color:var(--g6);font-size:15px}
+.lead .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.lead .meta span{font-size:12px;color:var(--g6);background:var(--line);border-radius:4px;padding:3px 8px}
+.btn-cta{appearance:none;cursor:pointer;border:0;border-radius:8px;height:52px;background:var(--mint);color:#fff;font-weight:600;font-size:16px;width:100%;margin-top:8px}
+.btn-cta:hover{filter:brightness(.96)}
+
+/* ---------- 고민 리스트 ---------- */
+.pains{display:grid}
+.pain{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.pain:last-child{border-bottom:0}
+.pain .ic{width:44px;height:44px;border-radius:12px;background:var(--mint-50);display:grid;place-items:center;color:var(--teal)}
+.pain .ic svg{width:22px;height:22px}
+.pain b{display:block;font-size:15px;font-weight:600}
+.pain span{display:block;font-size:13px;color:var(--g6)}
+.pain .tag{display:inline-block;font-size:11px;font-weight:600;color:var(--teal);margin-bottom:2px}
+
+/* ---------- 데모 ---------- */
+.ctrl{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin:0 -20px 6px;padding-inline:20px}
+.ctrl::-webkit-scrollbar{display:none}
+.dd{flex:none;display:inline-flex;align-items:center;gap:4px;background:var(--ink-2);color:#fff;border-radius:6px;padding:7px 11px;font-size:13px;font-weight:600}
+.fchip{flex:none;appearance:none;cursor:pointer;border:1px solid var(--line-2);background:#fff;border-radius:6px;padding:7px 11px;font-size:13px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+.fchip[aria-pressed="true"]{border-color:var(--teal);color:var(--teal);background:var(--mint-50);font-weight:600}
+.count{font-size:13px;color:var(--g6);margin:10px 0 2px}
+.count b{color:var(--teal)}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.thumb{width:64px;height:64px;border-radius:8px;background:var(--thumb);display:grid;place-items:center;overflow:hidden}
+.thumb svg{width:40px;height:52px}
+.row .nm{font-size:14.5px;line-height:1.4}
+.row .nm i{font-style:normal;color:var(--g9);margin-right:4px}
+.row .nm .new{font-size:10.5px;font-weight:700;color:var(--red);margin-left:4px;vertical-align:1px}
+.row .spec{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:12.5px;color:var(--g6);font-variant-numeric:tabular-nums}
+.row .spec b{color:var(--ink);font-weight:600}
+.empty{font-size:13.5px;color:var(--g6);padding:18px;text-align:center;background:var(--thumb);border-radius:8px;margin-top:8px}
+
+/* ---------- 성분 분석 카드 ---------- */
+.ana{border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.ana-top{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center;padding:16px}
+.ana-top .thumb{width:56px;height:56px}
+.ana-top .nm{font-size:15px;font-weight:600}
+.ana-top .nm i{display:block;font-style:normal;font-size:12.5px;font-weight:400;color:var(--g9)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:14px 6px;text-align:center;display:grid;gap:2px}
+.facts div + div{border-left:1px solid var(--line)}
+.facts span{font-size:11.5px;color:var(--g6)}
+.facts b{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.facts b.ok{color:var(--teal)}
+.ing{padding:14px 16px;display:grid;gap:10px}
+.ing-h{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600}
+.ing-list{display:flex;flex-wrap:wrap;gap:6px}
+.ing-list span{font-size:12.5px;background:var(--thumb);border-radius:4px;padding:4px 8px;color:var(--ink-2)}
+.ing-list span.k{background:var(--mint-50);color:var(--teal);font-weight:600}
+.src{font-size:11.5px;color:var(--g9);padding:0 16px 14px}
+.how{display:grid;gap:8px;margin-top:16px}
+.how div{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-2)}
+.how div::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);margin-top:8px;flex:none}
+
+/* ---------- 인디 브랜드 ---------- */
+.brand{padding:4px 0 18px}
+.brand + .brand{border-top:1px solid var(--line);padding-top:18px}
+.brand-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.blogo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;flex:none}
+.brand-h b{font-size:15px}
+.brand-h div span{display:block;font-size:12.5px;color:var(--g6);font-weight:400}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bitem .thumb{width:100%;height:auto;aspect-ratio:1}
+.bitem .thumb svg{width:46%;height:62%}
+.bitem p{margin:6px 0 0;font-size:12.5px;line-height:1.4}
+.bitem p i{display:block;font-style:normal;color:var(--g6);font-size:11.5px;margin-top:2px}
+.photo-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:2/1;margin-bottom:20px;background:var(--line)}
+.photo-card img{width:100%;height:100%;object-fit:cover}
+.photo-card::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,0) 70%)}
+.photo-card p{position:absolute;left:18px;top:50%;transform:translateY(-50%);margin:0;color:#fff;z-index:1;font-size:17px;font-weight:700;line-height:1.4;max-width:60%}
+
+/* ---------- 마무리 ---------- */
+.final{margin:28px 20px 8px;background:var(--mint-50);border-radius:12px;padding:22px 20px;display:grid;gap:8px}
+.final b{font-size:17px;letter-spacing:-.02em}
+.final p{margin:0;font-size:13.5px;color:var(--g6)}
+.final .btn-cta{margin-top:6px}
+.foot{padding:28px 20px 12px;font-size:11.5px;color:var(--g9);display:grid;gap:4px;line-height:1.6}
+
+/* ---------- 하단 고정 바 ---------- */
+.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:var(--col);background:#fff;border-top:1px solid var(--line);display:flex;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));z-index:30}
+.bar button{appearance:none;cursor:pointer;height:52px;border-radius:8px;font-weight:600;font-size:15.5px}
+.bar .ol{flex:0 0 36%;background:#fff;color:var(--teal);border:1px solid var(--mint)}
+.bar .fl{flex:1;background:var(--mint);color:#fff;border:0}
+
+/* ---------- 데스크톱 옆 패널 ---------- */
+.side{display:none}
+@media (min-width:1100px){
+  .side{display:grid;position:fixed;top:50%;transform:translateY(-50%);left:calc((100vw - var(--col)) / 4);translate:-50% 0;justify-items:center;text-align:center;gap:10px;width:260px}
+  .side svg{width:56px;height:56px}
+  .side b{font-size:20px;letter-spacing:-.03em}
+  .side p{margin:0;font-size:13.5px;color:var(--g6);line-height:1.6}
+  .side button{appearance:none;cursor:pointer;border:0;background:#fff;border-radius:12px;padding:14px 18px;font-weight:600;font-size:14px;color:var(--teal);box-shadow:0 2px 10px rgba(0,0,0,.06);margin-top:6px}
+}
+
+/* ---------- 설문 시트 ---------- */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:var(--col);max-height:92vh;max-height:92dvh;border-radius:16px 16px 0 0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+.sheet-top{padding:14px 20px 0;display:grid;gap:12px}
+.sheet-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sheet-bar .step{font-size:13px;font-weight:600;color:var(--g6);font-variant-numeric:tabular-nums}
+.sheet .x{appearance:none;border:0;background:none;width:32px;height:32px;cursor:pointer;font-size:24px;line-height:1;font-weight:300;color:var(--ink)}
+.prog{height:3px;background:var(--line);overflow:hidden;margin:0 -20px}
+.prog i{display:block;height:100%;width:0;background:var(--mint);transition:width .25s}
+.sheet-body{padding:22px 20px;overflow-y:auto;flex:1;display:grid;gap:14px;align-content:start}
+.qtag{font-size:12.5px;font-weight:700;color:var(--teal)}
+.qtitle{font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.03em;margin:0}
+.qhint{font-size:13px;color:var(--g6);margin:-6px 0 0}
+.opts{display:grid;gap:0}
+.opt{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;text-align:left;width:100%;appearance:none;cursor:pointer;border:0;border-bottom:1px solid var(--line);background:#fff;padding:14px 2px}
+.opt .box{width:22px;height:22px;border:1.5px solid #c4c4c4;border-radius:50%;margin-top:0;display:grid;place-items:center}
+.opt.multi .box{border-radius:5px}
+.opt[aria-checked="true"] .box{border-color:var(--mint);background:var(--mint)}
+.opt[aria-checked="true"] .box::after{content:"";width:10px;height:6px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.opt[aria-checked="true"] .t b{color:var(--teal)}
+.opt .t{display:grid;gap:2px;min-width:0}
+.opt .t b{font-weight:600;font-size:15px}
+.opt .t span{font-size:12.5px;color:var(--g6)}
+.opt[aria-disabled="true"]{opacity:.4;cursor:not-allowed}
+.other-in,.txt,.field input{width:100%;font:inherit;font-size:16px;border:1px solid var(--line-2);border-radius:8px;padding:12px 14px;background:#fff;color:var(--ink)}
+.txt{min-height:130px;resize:vertical}
+.other-in:focus,.txt:focus,.field input:focus{border-color:var(--mint);outline:none}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale button{appearance:none;cursor:pointer;border:1px solid var(--line-2);background:#fff;border-radius:8px;padding:12px 4px;display:grid;gap:6px;justify-items:center;font-size:11.5px;color:var(--g6);line-height:1.35;text-align:center}
+.scale button b{font-size:20px;font-weight:700;color:var(--ink)}
+.scale button[aria-checked="true"]{border-color:var(--mint);background:var(--mint-50);color:var(--teal)}
+.scale button[aria-checked="true"] b{color:var(--teal)}
+.scale-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--g9)}
+.sheet-foot{padding:10px 16px 14px;border-top:1px solid var(--line);display:flex;gap:8px}
+.btn{appearance:none;cursor:pointer;border:0;border-radius:8px;height:52px;padding:0 18px;font-weight:600;font-size:15.5px}
+.btn.ghost{background:#fff;color:var(--teal);border:1px solid var(--mint)}
+.btn.primary{background:var(--mint);color:#fff;flex:1}
+.btn.primary:disabled{background:#d8d8d8;cursor:not-allowed}
+.intro{display:grid;gap:12px}
+.intro p{margin:0;color:var(--g6);font-size:14.5px}
+.intro ul{margin:0;padding:14px 16px 14px 32px;color:var(--ink-2);font-size:13.5px;display:grid;gap:4px;background:var(--thumb);border-radius:8px}
+.field{display:grid;gap:6px}
+.field label{font-size:13.5px;font-weight:600}
+.field .opt-l{font-weight:400;color:var(--g9)}
+.sheet .filters{display:flex;flex-wrap:wrap;gap:6px}
+.consent{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:12.5px;color:var(--g6);background:var(--thumb);border-radius:8px;padding:12px}
+.consent input{width:18px;height:18px;margin-top:1px;accent-color:var(--mint)}
+.err{color:#e5484d;font-size:13px;margin:0}
+.done{display:grid;gap:12px;justify-items:center;text-align:center;padding-block:28px 8px}
+.done .ok{width:64px;height:64px;border-radius:50%;background:var(--mint-50);display:grid;place-items:center}
+.done .ok svg{width:30px;height:30px;color:var(--teal)}
+.done h3{font-size:20px;margin:0;letter-spacing:-.03em}
+.done p{margin:0;color:var(--g6);font-size:14px}
+.done .btn{width:100%;max-width:320px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="v-wellness">
+
+<aside class="side" aria-label="안내">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5 7 9 11.5 9 16.5A9 9 0 0 1 7 19.5C7 14.5 11 10 16 3z" fill="#19D7D2"/><path d="M12 20a4 4 0 0 0 4 4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  <b data-t="sideTitle"></b>
+  <p data-t="sideDesc"></p>
+  <button type="button" data-open="side">설문 참여하기 ›</button>
+</aside>
+
+<div class="app">
+  <div class="strip" id="strip">
+    <button type="button" data-open="strip"><span data-t="strip"></span> ›</button>
+    <button type="button" class="x" aria-label="배너 닫기" onclick="document.getElementById('strip').hidden=true">×</button>
+  </div>
+
+  <div class="head">
+    <div class="headrow">
+      <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5 7 9 11.5 9 16.5A9 9 0 0 1 7 19.5C7 14.5 11 10 16 3z" fill="#19D7D2"/></svg><span data-t="logo"></span></div>
+      <button class="search" type="button" id="search"><span data-t="search"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+    </div>
+    <nav class="tabs" aria-label="섹션">
+      <a href="#home" class="on">홈</a>
+      <a href="#demo">조건 검색</a>
+      <a href="#ana">성분 분석</a>
+      <a href="#indie">인디 브랜드</a>
+    </nav>
+  </div>
+
+  <main id="home">
+    <div class="banner banner-wrap">
+      <div class="slides" id="slides"></div>
+      <span class="pager" id="pager">1/3</span>
+    </div>
+
+    <div class="lead">
+      <p class="eb" data-t="eyebrow"></p>
+      <h1 data-t="h1"></h1>
+      <p class="sub" data-t="sub"></p>
+      <div class="meta" id="meta"></div>
+      <button class="btn-cta" type="button" data-open="hero" data-t="cta"></button>
+    </div>
+
+    <section class="sec" aria-labelledby="pain-t">
+      <div class="sec-t"><div><small data-t="painSmall"></small><h2 id="pain-t" data-t="painTitle"></h2></div></div>
+      <div class="pains" id="pains"></div>
+    </section>
+
+    <section class="sec" id="demo" aria-labelledby="demo-t">
+      <div class="sec-t"><div><small data-t="demoSmall"></small><h2 id="demo-t" data-t="demoTitle"></h2></div><span class="mock">목업 · 가상 예시</span></div>
+      <div class="ctrl" id="filters"><span class="dd" data-t="dd"></span></div>
+      <p class="count" id="count"></p>
+      <div class="rows" id="rows"></div>
+    </section>
+
+    <section class="sec" id="ana" aria-labelledby="ana-t">
+      <div class="sec-t"><div><small>성분 분석 미리보기</small><h2 id="ana-t" data-t="anaTitle"></h2></div><span class="mock">목업 · 가상 예시</span></div>
+      <div class="ana" id="anaCard"></div>
+      <div class="how" id="how"></div>
+    </section>
+
+    <section class="sec" id="indie" aria-labelledby="indie-t">
+      <div class="sec-t"><div><small>요즘 눈여겨볼</small><h2 id="indie-t">숨은 <span class="hl">인디 브랜드</span></h2></div><span class="mock">가상 브랜드</span></div>
+      <div class="photo-card"><img data-img-slot="indie" alt=""><p data-t="indiePhoto"></p></div>
+      <div id="brands"></div>
+    </section>
+
+    <div class="final">
+      <b data-t="finalTitle"></b>
+      <p data-t="finalDesc"></p>
+      <button class="btn-cta" type="button" data-open="bottom" data-t="cta"></button>
+    </div>
+
+  </main>
+
+  <div class="bar">
+    <button class="ol" type="button" id="shareBtn">링크 공유</button>
+    <button class="fl" type="button" data-open="bar">설문 참여하고 알림 받기</button>
+  </div>
+</div>
+
+<!-- ===================== 설문 시트 ===================== -->
+<div class="sheet-bg" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="qtitle">
+  <div class="sheet">
+    <div class="sheet-top">
+      <div class="sheet-bar"><span class="step" id="step"></span><button class="x" id="close" aria-label="닫기">×</button></div>
+      <div class="prog"><i id="prog"></i></div>
+    </div>
+    <div class="sheet-body" id="body"></div>
+    <div class="sheet-foot" id="foot">
+      <button class="btn ghost" id="prev">이전</button>
+      <button class="btn primary" id="next">다음</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — 배포 전 여기만 채우면 됩니다
+   ========================================================= */
+var CONFIG = {
+  // Google Apps Script 웹앱 URL (apps-script.gs 배포 후 발급되는 https://script.google.com/macros/s/.../exec)
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbzhiqqWMEPkYDrEnMOFhdNEB4U1Q_E44JAEa6OkVR7QATYhM9s5tNb4Kqh4D4INXALl/exec",
+  // GA4 측정 ID — 버전별로 분리 집계
+  GA4_ID: { wellness: "G-Q7ECW3DL2Y", fitness: "G-NP81H8WGKS" },
+  DEFAULT_TYPE: "fitness"
+};
+
+/* ---------- 이미지 (Unsplash, 핫링크는 Unsplash 가이드라인 권장 방식) ---------- */
+var IMGS = {
+  w1:{id:"photo-1687371678078-bc8c22fac02e",by:"Ayushmaan Gupta",c:"#8c7340"},
+  w2:{id:"photo-1515823064-d6e0c04616a7",by:"Jason Leung",c:"#3a2a22"},
+  w3:{id:"photo-1659918151453-8cabafe3880e",by:"Samuel Svec",c:"#598ca6"},
+  w4:{id:"photo-1760638261125-352e43ac361f",by:"sayan Nath",c:"#cfcfcf"},
+  f1:{id:"photo-1679384322991-f6f16a34aaa9",by:"gold touch nutrition",c:"#bdbdbd"},
+  f2:{id:"photo-1676655079738-af54dfd6318e",by:"Brendan Stephens",c:"#260c0c"},
+  f3:{id:"photo-1680265346124-ba1b82b19d5f",by:"gold touch nutrition",c:"#d0d0d0"},
+  f4:{id:"photo-1600679472233-eabc13b79f07",by:"Nigel Msipa",c:"#26260c"}
+};
+
+/* ---------- 설문 정의 ---------- */
+var SURVEYS = {
+  wellness: {
+    intro: "안녕하세요! 저희는 시중의 다양한 제로·고단백·기능성 음료 및 숨겨진 인디 브랜드 음료를 한눈에 비교하고, 개인 맞춤형으로 추천받을 수 있는 웰니스 음료 서비스를 준비 중인 팀입니다. 평소 드시는 음료를 선택하고 구매하실 때 느끼셨던 솔직한 경험을 듣고자 합니다.",
+    time: "약 1분",
+    leadTitle: "출시 소식을 가장 먼저 받아보시겠어요?",
+    leadDesc: "연락처를 남기시면 서비스 출시 때 맞춤 추천을 가장 먼저 보내드려요. 입력하지 않아도 설문은 제출됩니다.",
+    qs: [
+      {id:"q1",tag:"Q1",type:"multi",other:true,title:"평소 즐겨 마시거나 자주 구매하는 건강/기능성 음료 종류는 무엇인가요?",hint:"복수 선택",
+        opts:[["저당 / 무당 / 제로 슈가","당류 부담을 줄인 음료, 대체당 음료 등"],["저칼로리 / 제로 칼로리","체중 관리용 음료, 0kcal 탄산/에이드 등"],["고단백·식이섬유 등 영양/기능성","프로틴 음료, 식이섬유 강화 음료, 아미노산 등"],["디카페인 / 무카페인","카페인 부담 없는 커피, 차, 무카페인 에너지 드링크"],["유산균·콤부차 등 장 건강","발효 음료, 클렌즈, 장내 미생물 케어 음료"],["피로회복·수면 도움","타우린, 테아닌, 아쉬와간다, 숙면 유도 및 릴렉스 음료"]]},
+      {id:"q2",tag:"Q2",type:"multi",max:2,other:true,title:"음료를 선택할 때 가장 꼼꼼하게 확인하거나 중요하게 보는 요소는 무엇인가요?",hint:"최대 2개 선택",
+        opts:[["성분 및 원재료","당/카페인/해로운 첨가물 배제 여부, 특정 기능성 성분 함량 등"],["칼로리 및 영양성분","당류, 단백질, 지방, 칼로리 스펙 등"],["맛과 목넘김","대체당 특유의 뒷맛 여부, 맛의 완성도"],["가격 및 가성비","100ml당/단백질 1g당 가격 등"],["브랜드 신뢰도 및 철학","클린 라벨, 웰니스 브랜드 스토리 등"]]},
+      {id:"q3",tag:"Q3",type:"multi",other:true,title:"원하는 조건의 음료나 새로운 건강 음료를 찾을 때 주로 어떤 방식을 이용하시나요?",hint:"복수 선택",
+        opts:[["커머스 검색","쿠팡, 마켓컬리, 올리브영 등에서 키워드 검색 및 베스트 랭킹 참고"],["소셜/콘텐츠 탐색","인스타그램, 유튜브, 블로그, 건강 유튜버 추천 영상 참고"],["버티컬 플랫폼","랭킹닭컴, 프로틴 전문 몰 등 특정 카테고리 전문몰 이용"],["오프라인 탐색","편의점/마트/올리브영 매장에서 직접 뒷면 성분표를 보고 구매"],["전시회/팝업 방문","푸드위크, 비건페스타, 팝업스토어 등 전시회/행사 직접 참석"]]},
+      {id:"q4",tag:"Q4",type:"single",title:"기존 방식으로 음료를 탐색하고 구매할 때 가장 불편했던 점은 무엇인가요?",
+        opts:[["성분표 직접 비교의 번거로움","원하는 성분 조건(당·카페인·첨가물 등)에 맞는지 일일이 확인하기 귀찮다."],["신뢰할 수 있는 정보 부족","광고성 후기가 너무 많아 진짜 성분이 좋은지/맛있는지 믿기 어렵다."],["필터링 기능 부재","내가 원하는 구체적 조건(예: 무카페인+고단백, 해로운 첨가물 제외 등)으로 필터링해서 볼 수 없다."],["숨은 인디 브랜드 발굴 어려움","포털이나 대형몰에서는 잘 알려지지 않은 좋은 인디/웰니스 브랜드를 찾기 힘들다."],["불편함 없음","특별히 불편한 점을 느끼지 않으며, 현재 탐색 방식에 만족한다."]]},
+      {id:"q5",tag:"Q5",type:"scale",title:"시중의 모든 제로·고단백·기능성 음료와 온라인에 없는 숨은 인디 브랜드까지 성분과 목적 기준으로 한눈에 비교하고, 내 조건을 필터링하여 ‘초개인화된 웰니스 음료 추천’을 해주는 웹서비스가 있다면 이용해 보시겠습니까?",
+        opts:[["전혀 이용할 의향 없음","기존 검색/구매 방식 유지"],["이용할 의향 별로 없음","기존 방식이 충분히 편함"],["보통임","상황에 따라 다름"],["이용할 의향 약간 있음","서비스가 나오면 테스트해 볼 것 같다"],["매우 이용하고 싶음","꼭 필요했던 서비스라 바로 사전 신청하고 싶다"]]},
+      {id:"q6",tag:"Q6",type:"multi",other:true,showIf:function(a){return a.q5 && a.q5.v<=3},title:"기존 방식을 유지하시거나 서비스 이용 의향이 적은 이유는 무엇인가요?",hint:"복수 선택",
+        opts:[["이미 기존 플랫폼(쿠팡/컬리/인스타/유튜브 등)으로 검색하는 방식에 익숙하고 만족스러워서"],["음료를 살 때 성분이나 목적까지 일일이 비교할 필요성을 느끼지 못해서"],["새로운 전용 웹/앱 서비스에 접속하는 것 자체가 귀찮아서"]]},
+      {id:"q7",tag:"Q7",type:"text",optional:true,title:"내 조건에 맞는 음료를 찾을 때 “이런 기능이나 정보까지 제공해 주면 좋겠다” 하는 점이 있다면 자유롭게 적어주세요.",hint:"선택 사항"}
+    ]
+  },
+  fitness: {
+    intro: "운동하면서 마시는 프로틴·제로 음료를 고를 때의 실제 경험을 듣고 싶습니다. 응답은 익명으로 처리되며, 정답은 없습니다.",
+    time: "약 3분",
+    leadTitle: "성분 분석표와 비교표, 꾸준히 받아보실래요?",
+    leadDesc: "제로 음료 성분 분석표와 등급표를 꾸준히 받아보고 싶다면, 출시 소식을 이메일로 보내드려요. 입력하지 않아도 설문은 제출됩니다.",
+    qs: [
+      {id:"q1",tag:"Q1",type:"single",title:"평소 운동 관련 음료(프로틴·제로 음료 등)를 얼마나 자주 구매하세요?",
+        opts:[["주 1회 이상"],["월 2~3회"],["월 1회 이하"],["거의 사지 않는다"]]},
+      {id:"q2",tag:"Q2",type:"multi",other:true,title:"제로·프로틴 음료의 성분 정보는 주로 어디서 얻으세요?",hint:"복수 선택",
+        opts:[["제품 뒷면 성분표를 직접 본다"],["유튜브·인플루언서 리뷰"],["커뮤니티·지인 후기"],["따로 찾아보지 않는다",null,"exclusive"]]},
+      {id:"q3",tag:"Q3",type:"single",title:"음료를 고를 때 가장 중요하게 보는 기준 하나를 고르세요.",
+        opts:[["단백질 함량"],["당류·칼로리"],["맛"],["가격"],["브랜드 신뢰도"]]},
+      {id:"q4",tag:"Q4",type:"single",title:"제품 광고·표시와 실제 성분표가 다르다고 느낀 적 있나요?",
+        opts:[["자주 있다"],["가끔 있다"],["거의 없다"]]},
+      {id:"q5",tag:"Q5",type:"single",title:"성분 정보를 찾을 때 가장 불편했던 점은 무엇인가요?",
+        opts:[["어디서 찾아야 할지 모르겠다"],["말이 제각각이라 뭘 믿어야 할지 모르겠다"],["성분표가 복잡해서 이해하기 어렵다"],["특별히 불편했던 적 없다"]]},
+      {id:"q6",tag:"Q6",type:"single",title:"원하는 조건(예: 당류 0g·고단백)의 음료를 찾기 위해 시간을 따로 써본 적 있나요?",
+        opts:[["자주 있다"],["가끔 있다"],["거의 없다"]]},
+      {id:"q7",tag:"Q7",type:"single",title:"여러 음료를 비교하기 위해 직접 표를 만들거나 정리해본 적 있나요?",hint:"예: 메모, 엑셀, 캡처 모아두기",
+        opts:[["있다"],["없다"]]},
+      {id:"q8",tag:"Q8",type:"single",title:"새로운 제로·프로틴 음료가 나오면 정보를 찾아보나요?",
+        opts:[["자주 찾아본다"],["가끔 찾아본다"],["거의 찾아보지 않는다"]]},
+      {id:"q9",tag:"Q9",type:"text",optional:true,title:"“이런 정보가 있으면 좋겠다” 싶은 게 있다면 자유롭게 적어주세요.",hint:"선택 사항"}
+    ]
+  }
+};
+
+/* 사전등록 단계의 관심 음료 유형 */
+var INTERESTS = ["제로 슈가","제로 칼로리","프로틴/고단백","디카페인","발효/콤부차","릴렉스/수면"];
+
+
+/* ---------- 버전별 화면 문구 ---------- */
+var COPY = {
+  wellness: {
+    title:"건강음료 큐레이션 사전신청",
+    logo:"건강음료 큐레이션", strip:"1분 설문 참여하고 출시 소식 받기",
+    search:"무카페인 · 당 0g · 인공감미료 제외",
+    sideTitle:"성분으로 고르는 음료", sideDesc:"1분 설문에 참여하고<br>출시 소식을 가장 먼저 받아보세요",
+    eyebrow:"제로·고단백 기능성 음료부터 숨겨진 인디 브랜드까지",
+    h1:"원하는 성분과 목적대로,<br><em>한눈에 비교</em>하고 추천받으세요",
+    sub:"당·카페인·첨가물 배제부터 기능성 성분까지! 대형마트에서는 만나기 어려운 작은 브랜드까지 조건 필터링으로 찾아드립니다.",
+    meta:["당·카페인·첨가물 필터","인디 브랜드 포함","목적별 추천"],
+    cta:"초개인화된 웰니스 음료 추천받기",
+    slides:[
+      {img:"w1",t:"대형마트 밖에서 찾은<br>좋은 웰니스 음료까지",s:"인디 브랜드 보기",href:"#indie"},
+      {img:"w4",t:"무카페인이면서 당 0g,<br>조건을 겹쳐서 찾기",s:"조건 검색 미리보기",href:"#demo"},
+      {img:"w2",t:"성분표, 이제<br>하나씩 뒤집지 마세요",s:"성분 분석 미리보기",href:"#ana"}
+    ],
+    painSmall:"음료 고를 때", painTitle:"이런 적 <span class=\"hl\">있으셨죠</span>",
+    pains:[
+      ["list","번거로움","성분표를 하나하나 비교해야 해요","당·카페인·첨가물 조건에 맞는지 뒷면을 일일이 확인합니다."],
+      ["filter","필터 부재","내 조건으로 걸러주는 곳이 없어요","‘무카페인이면서 고단백’ 같은 조합으로 한 번에 못 찾습니다."],
+      ["shield","신뢰","광고성 후기가 너무 많아요","진짜 성분이 좋은지, 맛있는지 믿기 어렵습니다."],
+      ["search","발굴","좋은 인디 브랜드는 묻혀 있어요","포털·대형몰 상위에는 늘 같은 제품만 보입니다."]
+    ],
+    demoSmall:"조건을 눌러 보세요", demoTitle:"내 조건으로 <span class=\"hl\">찾은 음료</span>", dd:"목적 전체 ▾",
+    anaTitle:"성분표, <span class=\"hl\">한눈에</span> 정리해 드려요",
+    ana:{nm:"가상 콤부차 A · 350ml",br:"가상 브랜드 · 발효 음료",bottle:["#7fb8a4","bottle"],
+      facts:[["당류","0g",1],["카페인","0mg",1],["열량","15kcal"],["대체당","1종"]],
+      ing:[["정제수"],["콤부차 발효액"],["녹차 추출물"],["홍차 추출물"],["에리스리톨",1],["구연산"],["천연향료"]],
+      ingNote:"대체당은 따로 표시"},
+    how:["제품 영양성분표·원재료명 원문 그대로 옮깁니다","100ml 기준으로 환산해 제품끼리 같은 눈금으로 비교합니다","정보마다 출처와 확인 날짜를 함께 적습니다"],
+    indiePhoto:"광고 대신<br>성분으로 발견하는 브랜드",
+    brands:[
+      {nm:"가상 브랜드 ‘숲결’",d:"저당 발효 음료",c:"#5f9e8a",items:[["콤부차 진저","당 0g · 무카페인","#c9a35b","bottle"],["콤부차 베리","당 0g · 비건","#b0566e","bottle"],["워터 케피어","유산균 발효","#9cc3d4","bottle"]]},
+      {nm:"가상 브랜드 ‘한모금’",d:"무카페인 티 음료",c:"#8a6fb0",items:[["루이보스 티","무카페인 · 무가당","#a5523a","can"],["보리 콜드브루","무카페인","#7a5a3a","can"],["캐모마일 티","무카페인","#d9b64d","can"]]}
+    ],
+    finalTitle:"평소 음료 고르는 경험을 들려주세요",
+    finalDesc:"여러분의 답변으로 서비스를 만듭니다. 설문 마지막에 연락처를 남기시면 출시 소식을 가장 먼저 알려드려요."
+  },
+  fitness: {
+    title:"피트니스 음료 스펙 비교 사전신청",
+    logo:"음료 스펙 비교", strip:"약 3분 설문 참여하고 출시 소식 받기",
+    search:"단백질 20g↑ · 당류 0g · 120kcal↓",
+    sideTitle:"스펙으로 고르는 음료", sideDesc:"약 3분 설문에 참여하고<br>출시 소식을 가장 먼저 받아보세요",
+    eyebrow:"프로틴 · 제로 · 피트니스 음료",
+    h1:"단백질 <em>20g</em> 이상?<br>당류 <em>0g</em>?",
+    sub:"시중 프로틴·제로 음료부터 숨은 브랜드까지, 내 피트니스 목적에 맞춰 1초 만에 필터링하세요.",
+    meta:["단백질·당류·열량","대체당 종류","단백질 1g당 가격"],
+    cta:"내 피트니스 목표에 딱 맞는 음료 추천받기",
+    slides:[
+      {img:"f2",t:"유튜브 티어 영상, 쇼핑몰 랭킹<br>그래서 뭘 사야 하죠?",s:"조건 검색 미리보기",href:"#demo"},
+      {img:"f1",t:"단백질·칼로리·대체당<br>스펙으로 비교",s:"성분 분석 미리보기",href:"#ana"},
+      {img:"f4",t:"검색 시간은 줄이고<br>득근에만 집중",s:"인디 브랜드 보기",href:"#indie"}
+    ],
+    painSmall:"성분 정보 찾을 때", painTitle:"이게 <span class=\"hl\">제일 불편</span>하죠",
+    pains:[
+      ["search","접근성","어디서 찾아야 할지 모르겠다","정보가 영상, 커뮤니티, 쇼핑몰 후기에 흩어져 있습니다."],
+      ["shield","신뢰성","말이 제각각이라 뭘 믿을지 모르겠다","‘고단백’이라 써 있어도 성분표 숫자가 다를 때가 있습니다."],
+      ["list","간편성","성분표가 복잡해서 비교가 어렵다","용량도 단위도 제각각이라 나란히 놓고 보기 힘듭니다."]
+    ],
+    demoSmall:"조건을 눌러 보세요", demoTitle:"내 기준에 <span class=\"hl\">맞는 음료</span>", dd:"프로틴·제로 ▾",
+    anaTitle:"숫자는 <span class=\"hl\">원문 그대로</span> 옮깁니다",
+    ana:{nm:"샘플 A 프로틴 드링크 · 330ml",br:"가상 브랜드 · 프로틴 음료",bottle:["#3b5bdb","bottle"],
+      facts:[["단백질","25g",1],["당류","0g",1],["열량","110kcal"],["1g당","96원"]],
+      ing:[["정제수"],["분리유청단백"],["우유단백농축물"],["코코아분말"],["수크랄로스",1],["아세설팜칼륨",1],["카라기난"],["합성향료"]],
+      ingNote:"대체당은 따로 표시"},
+    how:["제품 영양성분표 원문 기준","1병·100ml 기준으로 환산","출처와 확인 날짜 함께 표기","새로 나온 프로틴·제로 음료는 매주 추가"],
+    indiePhoto:"스펙 좋은 작은 브랜드도<br>같은 표에서",
+    brands:[
+      {nm:"가상 브랜드 ‘리프트랩’",d:"고단백 RTD",c:"#2f4fbf",items:[["프로틴 초코","단백질 25g · 당류 0g","#5a3d2b","bottle"],["프로틴 커피","단백질 22g · 당류 0g","#8a5a3b","bottle"],["프로틴 바닐라","단백질 20g · 당류 1g","#e2cf9a","bottle"]]},
+      {nm:"가상 브랜드 ‘제로핏’",d:"제로 에너지·이온",c:"#e8590c",items:[["제로 이온","0kcal · 알룰로스","#56b4e9","can"],["제로 에너지","0kcal · 수크랄로스 무첨가","#f08c00","can"],["BCAA 워터","당류 0g","#20c997","can"]]}
+    ],
+    finalTitle:"제로 음료 성분 분석표와 비교표, 꾸준히 받아보고 싶다면",
+    finalDesc:"짧은 설문에 답해 주시고, 원하시면 마지막에 이메일을 남겨 주세요. 출시 소식을 보내드려요."
+  }
+};
+
+/* ---------- 데모용 가상 데이터 (실제 제품 아님) ---------- */
+var DEMO = {
+  wellness: {
+    filters:[["nocaf","무카페인"],["sugar0","당 0g"],["nosweet","인공감미료 제외"],["protein","단백질 10g↑"],["vegan","비건"]],
+    items:[
+      {b:"가상 브랜드",n:"콤부차 A",t:["발효","당 0g","무카페인"],f:{nocaf:1,sugar0:1,vegan:1},c:"#7fb8a4",k:"bottle"},
+      {b:"가상 브랜드",n:"디카페인 콜드브루 B",t:["카페인 2mg","당 0g"],f:{nocaf:1,sugar0:1,nosweet:1,vegan:1},c:"#6b4a33",k:"can"},
+      {b:"가상 브랜드",n:"귀리 프로틴 C",t:["단백질 12g","당 3g","비건"],f:{protein:1,vegan:1,nosweet:1,nocaf:1},c:"#d9c9a3",k:"bottle"},
+      {b:"가상 브랜드",n:"루이보스 티 D",t:["무카페인","무가당"],f:{nocaf:1,sugar0:1,nosweet:1,vegan:1},c:"#a5523a",k:"can"},
+      {b:"가상 브랜드",n:"제로 에이드 E",t:["0kcal","대체당"],f:{sugar0:1,nocaf:1,vegan:1},c:"#f2b8c6",k:"can"},
+      {b:"가상 브랜드",n:"유청 프로틴 F",t:["단백질 20g","당 0g"],f:{protein:1,sugar0:1,nocaf:1},c:"#4c6ef5",k:"bottle"},
+      {b:"가상 브랜드",n:"말차 라떼 G",t:["카페인 함유","저당"],f:{vegan:1},c:"#8fae5a",k:"bottle"},
+      {b:"가상 브랜드",n:"탄산수 H",t:["무향","0kcal"],f:{nocaf:1,sugar0:1,nosweet:1,vegan:1},c:"#9cc3d4",k:"bottle"}
+    ]
+  },
+  fitness: {
+    filters:[["p20","단백질 20g↑"],["s0","당류 0g"],["k120","120kcal↓"],["nosuc","수크랄로스 제외"],["g100","1g당 100원↓"]],
+    items:[
+      {b:"샘플",n:"프로틴 드링크 A",p:25,s:0,k:110,sw:"수크랄로스",won:96,c:"#3b5bdb",kd:"bottle"},
+      {b:"샘플",n:"프로틴 워터 B",p:20,s:0,k:95,sw:"알룰로스",won:118,c:"#74c0fc",kd:"bottle",nw:1},
+      {b:"샘플",n:"단백질 라떼 C",p:15,s:2,k:130,sw:"스테비아",won:104,c:"#a9805b",kd:"can"},
+      {b:"샘플",n:"고단백 쉐이크 D",p:30,s:1,k:160,sw:"수크랄로스",won:83,c:"#343a40",kd:"bottle"},
+      {b:"샘플",n:"프로틴 커피 E",p:22,s:0,k:118,sw:"에리스리톨",won:91,c:"#6b4a33",kd:"can",nw:1},
+      {b:"샘플",n:"제로 단백 음료 F",p:12,s:0,k:70,sw:"알룰로스",won:142,c:"#ffd43b",kd:"can"},
+      {b:"샘플",n:"초코 프로틴 G",p:21,s:3,k:140,sw:"없음",won:99,c:"#5a3d2b",kd:"bottle"}
+    ],
+    test:{p20:function(i){return i.p>=20},s0:function(i){return i.s===0},k120:function(i){return i.k<=120},nosuc:function(i){return i.sw!=="수크랄로스"},g100:function(i){return i.won<=100}}
+  }
+};
+
+/* 썸네일용 병·캔 일러스트 */
+function bottleSVG(color, kind){
+  if (kind === "can") return '<svg viewBox="0 0 40 52" aria-hidden="true"><rect x="9" y="4" width="22" height="44" rx="4" fill="'+color+'"/><rect x="10" y="3" width="20" height="4" rx="2" fill="#cfd4d9"/><rect x="9" y="18" width="22" height="14" fill="#fff" opacity=".85"/><rect x="13" y="23" width="14" height="2" rx="1" fill="'+color+'"/></svg>';
+  return '<svg viewBox="0 0 40 52" aria-hidden="true"><rect x="16" y="2" width="8" height="5" rx="1.5" fill="#cfd4d9"/><path d="M15 7h10v5c0 2 6 4 6 9v25a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4V21c0-5 6-7 6-9z" fill="'+color+'"/><rect x="9" y="25" width="22" height="13" fill="#fff" opacity=".85"/><rect x="13" y="30" width="14" height="2" rx="1" fill="'+color+'"/></svg>';
+}
+var ICONS = {
+  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>',
+  filter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16l-6 7.5V19l-4 1.5v-8z"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
+};
+
+/* =========================================================
+   런타임
+   ========================================================= */
+(function(){
+  var qs = new URLSearchParams(location.search);
+  var hashType = (location.hash||"").replace("#","");
+  var type = qs.get("type") || (hashType === "fitness" ? "fitness" : "") || CONFIG.DEFAULT_TYPE;
+  if (type !== "fitness") type = "wellness";
+  var UTM = {};
+  ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(function(k){ UTM[k] = qs.get(k)||""; });
+  var RID = "r" + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  var C = COPY[type];
+  document.body.className = "v-" + type;
+  document.title = C.title;
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function imgURL(id, w){ return "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=" + w + "&q=70"; }
+  var used = {};
+  function setImg(img, key){
+    var m = IMGS[key]; if (!m) return;
+    used[m.by] = 1;
+    img.parentNode.style.background = m.c;
+    img.decoding = "async";
+    img.src = imgURL(m.id, 900);
+    img.srcset = [600,900,1200].map(function(w){ return imgURL(m.id, w) + " " + w + "w"; }).join(",");
+    img.sizes = "(min-width:600px) 600px, 100vw";
+    img.onerror = function(){ img.style.visibility = "hidden"; };
+  }
+
+  /* 문구 채우기 (COPY는 팀이 작성한 고정 문구라 innerHTML 사용) */
+  document.querySelectorAll("[data-t]").forEach(function(n){ if (C[n.dataset.t] != null) n.innerHTML = C[n.dataset.t]; });
+  $("meta").innerHTML = C.meta.map(function(m){ return "<span>" + esc(m) + "</span>"; }).join("");
+
+  /* 배너 */
+  var slides = $("slides");
+  C.slides.forEach(function(s, i){
+    var a = document.createElement("a"); a.className = "slide"; a.href = s.href;
+    a.innerHTML = '<img alt="" ' + (i ? 'loading="lazy"' : 'fetchpriority="high"') + '><div class="cap"><b>' + s.t + '</b><span>' + esc(s.s) + ' ›</span></div>';
+    setImg(a.querySelector("img"), s.img);
+    slides.appendChild(a);
+  });
+  var cur = 0, n = C.slides.length, pager = $("pager"), paused = false;
+  slides.addEventListener("scroll", function(){ cur = Math.round(slides.scrollLeft / slides.clientWidth); pager.textContent = (cur+1) + "/" + n; }, {passive:true});
+  ["pointerdown","touchstart","mouseenter"].forEach(function(ev){ slides.addEventListener(ev, function(){ paused = true; }, {passive:true}); });
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches){
+    setInterval(function(){ if (paused || document.hidden) return; slides.scrollTo({left: ((cur+1) % n) * slides.clientWidth, behavior:"smooth"}); }, 4500);
+  }
+
+  /* 고민 */
+  $("pains").innerHTML = C.pains.map(function(p){
+    return '<div class="pain"><span class="ic">' + ICONS[p[0]] + '</span><div><span class="tag">' + esc(p[1]) + '</span><b>' + esc(p[2]) + '</b><span>' + esc(p[3]) + '</span></div></div>';
+  }).join("");
+
+  /* 성분 분석 카드 */
+  var an = C.ana;
+  $("anaCard").innerHTML =
+    '<div class="ana-top"><div class="thumb">' + bottleSVG(an.bottle[0], an.bottle[1]) + '</div><div class="nm"><i>' + esc(an.br) + '</i>' + esc(an.nm) + '</div></div>' +
+    '<div class="facts">' + an.facts.map(function(f){ return '<div><span>' + esc(f[0]) + '</span><b' + (f[2] ? ' class="ok"' : '') + '>' + esc(f[1]) + '</b></div>'; }).join("") + '</div>' +
+    '<div class="ing"><div class="ing-h">원재료명 <span class="mock">' + esc(an.ingNote) + '</span></div><div class="ing-list">' +
+    an.ing.map(function(g){ return '<span' + (g[1] ? ' class="k"' : '') + '>' + esc(g[0]) + '</span>'; }).join("") + '</div></div>' +
+    '<p class="src">출처: 제품 표시사항 원문 · 100ml 환산 · 확인일 표기 (예시 화면)</p>';
+  $("how").innerHTML = C.how.map(function(h){ return "<div>" + esc(h) + "</div>"; }).join("");
+
+  /* 인디 브랜드 */
+  setImg(document.querySelector('[data-img-slot="indie"]'), type === "fitness" ? "f3" : "w3");
+  $("brands").innerHTML = C.brands.map(function(b){
+    return '<div class="brand"><div class="brand-h"><span class="blogo" style="background:' + b.c + '">' + esc(b.nm.replace(/.*‘|’/g,"").slice(0,2)) + '</span><div><b>' + esc(b.nm) + '</b><span>' + esc(b.d) + '</span></div></div>' +
+      '<div class="bgrid">' + b.items.map(function(it){ return '<div class="bitem"><div class="thumb">' + bottleSVG(it[2], it[3]) + '</div><p>' + esc(it[0]) + '<i>' + esc(it[1]) + '</i></p></div>'; }).join("") + '</div></div>';
+  }).join("");
+
+
+  /* GA4 — 버전별 측정 ID로 분리 */
+  var gaId = CONFIG.GA4_ID && CONFIG.GA4_ID[type];
+  if (gaId){
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag("js", new Date());
+    gtag("config", gaId, {content_group: type, variant: type});
+    var gs = document.createElement("script"); gs.async = true; gs.src = "https://www.googletagmanager.com/gtag/js?id=" + gaId;
+    document.head.appendChild(gs);
+  }
+
+  /* 트래킹 */
+  function track(name, props){
+    props = Object.assign({variant:type}, UTM, props||{});
+    try{ if (window.gtag) gtag("event", name, props); }catch(e){}
+    try{ if (window.posthog && posthog.capture) posthog.capture(name, props); }catch(e){}
+  }
+  track("landing_view");
+  var marks = [25,50,75,100], hit = {};
+  window.addEventListener("scroll", function(){
+    var h = document.documentElement, pct = (h.scrollTop + innerHeight) / h.scrollHeight * 100;
+    marks.forEach(function(m){ if (pct >= m && !hit[m]) { hit[m] = 1; track("scroll_depth",{percent:m}); } });
+  }, {passive:true});
+
+  /* 탭 활성화 */
+  var tabs = document.querySelectorAll(".tabs a");
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ var id = e.target.id === "home" ? "home" : e.target.id; tabs.forEach(function(t){ t.classList.toggle("on", t.getAttribute("href") === "#" + id); }); } });
+    }, {rootMargin:"-45% 0px -50% 0px"});
+    ["demo","ana","indie"].forEach(function(id){ io.observe($(id)); });
+  }
+  tabs.forEach(function(t){ if (t.getAttribute("href") === "#home") t.addEventListener("click", function(e){ e.preventDefault(); scrollTo({top:0,behavior:"smooth"}); }); });
+  /* lead 섹션이 보이면 홈 탭 */
+  var _lead = document.querySelector(".lead");
+  if ("IntersectionObserver" in window) new IntersectionObserver(function(es){ if (es[0].isIntersecting) tabs.forEach(function(t){ t.classList.toggle("on", t.getAttribute("href") === "#home"); }); }, {rootMargin:"-45% 0px -50% 0px"}).observe(_lead);
+
+  $("search").addEventListener("click", function(){ $("demo").scrollIntoView({behavior:"smooth"}); track("search_click"); });
+  $("shareBtn").addEventListener("click", function(){
+    var b = this, u = location.origin + location.pathname + "?type=" + type + "&utm_source=share";
+    var ok = function(){ b.textContent = "복사됨"; setTimeout(function(){ b.textContent = "링크 공유"; }, 1800); track("share_copy",{from:"bar"}); };
+    if (navigator.clipboard) navigator.clipboard.writeText(u).then(ok, function(){ b.textContent = "복사 실패"; }); else b.textContent = "복사 실패";
+  });
+
+  /* 데모 */
+  (function(){
+    var D = DEMO[type], on = {}, fbox = $("filters"), cnt = $("count"), res = $("rows");
+    D.filters.forEach(function(f, i){
+      var b = document.createElement("button"); b.className = "fchip"; b.type = "button"; b.textContent = f[1];
+      b.setAttribute("aria-pressed", i===0 ? "true" : "false"); if (i===0) on[f[0]] = 1;
+      b.onclick = function(){ on[f[0]] = !on[f[0]]; b.setAttribute("aria-pressed", on[f[0]] ? "true":"false"); draw(); track("demo_filter",{filter:f[1]}); };
+      fbox.appendChild(b);
+    });
+    function pass(it){ return Object.keys(on).every(function(k){ if(!on[k]) return true; return type==="fitness" ? D.test[k](it) : !!it.f[k]; }); }
+    function draw(){
+      var list = D.items.filter(pass);
+      cnt.innerHTML = "조건에 맞는 예시 <b>" + list.length + "개</b>";
+      if (!list.length){ res.innerHTML = '<div class="empty">조건에 맞는 예시가 없어요. 조건을 하나 빼 보세요.</div>'; return; }
+      res.innerHTML = list.map(function(i){
+        var spec = type === "fitness"
+          ? '<span>단백질 <b>'+i.p+'g</b></span><span>당류 <b>'+i.s+'g</b></span><span><b>'+i.k+'</b>kcal</span><span>'+esc(i.sw)+'</span><span>1g당 <b>'+i.won+'원</b></span>'
+          : i.t.map(function(t){ return "<span>" + esc(t) + "</span>"; }).join("");
+        return '<div class="row"><div class="thumb">' + bottleSVG(i.c, i.k === "can" || i.kd === "can" ? "can" : "bottle") + '</div><div><div class="nm"><i>' + esc(i.b) + '</i>' + esc(i.n) + (i.nw ? '<span class="new">NEW</span>' : '') + '</div><div class="spec">' + spec + '</div></div></div>';
+      }).join("");
+    }
+    draw();
+  })();
+
+  /* ---------- 설문 ---------- */
+  var S = SURVEYS[type], A = {}, idx = -1, sentSurvey = false;
+  var sheet = document.getElementById("sheet"), body = document.getElementById("body"),
+      stepEl = document.getElementById("step"), prog = document.getElementById("prog"),
+      prev = document.getElementById("prev"), next = document.getElementById("next"), foot = document.getElementById("foot");
+  var lastFocus = null;
+
+  function visibleQs(){ return S.qs.filter(function(q){ return !q.showIf || q.showIf(A); }); }
+  // 화면 순서: -1 인트로 → 0..n-1 질문 → n 사전등록 → n+1 완료
+  function open(src){
+    lastFocus = document.activeElement;
+    track("cta_click",{position:src});
+    sheet.hidden = false; document.body.style.overflow = "hidden";
+    if (idx > visibleQs().length) idx = -1;
+    render();
+  }
+  function close(){
+    sheet.hidden = true; document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click", function(){ open(b.dataset.open); }); });
+  document.getElementById("close").onclick = close;
+  sheet.addEventListener("click", function(e){ if (e.target === sheet) close(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden) close(); });
+
+  function el(tag, cls, html){ var e = document.createElement(tag); if(cls) e.className = cls; if(html!=null) e.innerHTML = html; return e; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  function answered(q){
+    var a = A[q.id];
+    if (q.optional) return true;
+    if (!a) return false;
+    if (q.type === "multi"){
+      if (!a.v.length) return false;
+      if (a.v.indexOf("기타") > -1 && !(a.other||"").trim()) return false;
+      return true;
+    }
+    return a.v != null;
+  }
+
+  function render(){
+    var V = visibleQs(), n = V.length;
+    body.innerHTML = ""; foot.hidden = false; prev.hidden = idx <= -1;
+    var total = n + 1;
+    prog.style.width = Math.max(0, Math.min(100, (idx + 1) / total * 100)) + "%";
+
+    if (idx === -1){
+      stepEl.textContent = "설문 안내";
+      var d = el("div","intro");
+      d.appendChild(el("p","qtag","소요시간 " + S.time));
+      var h = el("h3","qtitle"); h.id = "qtitle"; h.textContent = type === "fitness" ? "운동 음료, 어떻게 고르고 계세요?" : "평소 음료 고르는 경험을 들려주세요"; d.appendChild(h);
+      d.appendChild(el("p",null,esc(S.intro)));
+      d.appendChild(el("ul",null,"<li>"+n+"개 문항, 대부분 선택형입니다</li><li>응답은 서비스 기획에만 사용됩니다</li><li>연락처는 마지막에 원하실 때만 입력합니다</li>"));
+      body.appendChild(d);
+      next.textContent = "시작하기"; next.disabled = false;
+      stepEl.textContent = "설문 안내";
+      return;
+    }
+    if (idx < n){
+      var q = V[idx];
+      stepEl.textContent = (idx+1) + " / " + n;
+      body.appendChild(el("span","qtag",q.tag));
+      var t = el("h3","qtitle"); t.id = "qtitle"; t.textContent = q.title; body.appendChild(t);
+      if (q.hint) body.appendChild(el("p","qhint",esc(q.hint)));
+      if (q.type === "text") renderText(q); else if (q.type === "scale") renderScale(q); else renderOpts(q);
+      next.textContent = idx === n-1 ? "응답 제출" : "다음";
+      next.disabled = !answered(q);
+      return;
+    }
+    if (idx === n){ renderLead(); return; }
+    renderDone();
+  }
+
+  function renderOpts(q){
+    var multi = q.type === "multi", a = A[q.id] || (A[q.id] = {v: multi ? [] : null, other:""});
+    var box = el("div","opts"); box.setAttribute("role", multi ? "group" : "radiogroup");
+    var list = q.opts.slice(); if (q.other) list.push(["기타","직접 입력"]);
+    var otherIn = null;
+    list.forEach(function(o){
+      var label = o[0], b = el("button","opt" + (multi ? " multi":""));
+      b.type = "button"; b.setAttribute("role", multi ? "checkbox" : "radio");
+      b.innerHTML = '<span class="box"></span><span class="t"><b>'+esc(label)+'</b>'+(o[1]?'<span>'+esc(o[1])+'</span>':'')+'</span>';
+      function sync(){
+        var sel = multi ? a.v.indexOf(label) > -1 : a.v === label;
+        b.setAttribute("aria-checked", sel ? "true":"false");
+        var full = multi && q.max && a.v.length >= q.max && !sel;
+        b.setAttribute("aria-disabled", full ? "true":"false");
+      }
+      b._sync = sync;
+      b.onclick = function(){
+        if (b.getAttribute("aria-disabled") === "true") return;
+        if (multi){
+          var i = a.v.indexOf(label);
+          if (i > -1) a.v.splice(i,1);
+          else {
+            if (o[2] === "exclusive") a.v = [];
+            else a.v = a.v.filter(function(x){ var oo = list.filter(function(z){return z[0]===x})[0]; return !(oo && oo[2]==="exclusive"); });
+            a.v.push(label);
+          }
+        } else a.v = label;
+        box.querySelectorAll(".opt").forEach(function(x){ x._sync(); });
+        if (otherIn) { otherIn.hidden = !(multi ? a.v.indexOf("기타")>-1 : a.v==="기타"); if(!otherIn.hidden && label==="기타") otherIn.focus(); }
+        next.disabled = !answered(q);
+        if (!multi && label !== "기타") setTimeout(function(){ if (!next.disabled) go(1); }, 260);
+      };
+      box.appendChild(b); sync();
+    });
+    body.appendChild(box);
+    if (q.other){
+      otherIn = el("input","other-in"); otherIn.placeholder = "기타 내용을 적어주세요"; otherIn.id = "other-" + q.id; otherIn.maxLength = 200;
+      otherIn.value = a.other || ""; otherIn.hidden = !(multi ? a.v.indexOf("기타")>-1 : a.v==="기타");
+      otherIn.oninput = function(){ a.other = otherIn.value; next.disabled = !answered(q); };
+      body.appendChild(otherIn);
+    }
+  }
+
+  function renderScale(q){
+    var a = A[q.id] || (A[q.id] = {v:null});
+    var box = el("div","scale"); box.setAttribute("role","radiogroup");
+    q.opts.forEach(function(o, i){
+      var b = el("button"); b.type = "button"; b.setAttribute("role","radio");
+      b.innerHTML = "<b>"+(i+1)+"</b>"+esc(o[0]);
+      b.title = o[1];
+      b.setAttribute("aria-checked", a.v === i+1 ? "true":"false");
+      b.onclick = function(){
+        a.v = i+1; a.label = o[0];
+        box.querySelectorAll("button").forEach(function(x,j){ x.setAttribute("aria-checked", j===i ? "true":"false"); });
+        next.disabled = false;
+        sub.textContent = (i+1) + "점 · " + o[0] + " — " + o[1];
+        setTimeout(function(){ go(1); }, 320);
+      };
+      box.appendChild(b);
+    });
+    body.appendChild(box);
+    body.appendChild(el("div","scale-legend","<span>전혀 없음</span><span>매우 이용하고 싶음</span>"));
+    var sub = el("p","qhint", a.v ? (a.v + "점 · " + q.opts[a.v-1][0]) : "1~5점 중 하나를 골라주세요");
+    sub.style.margin = "0"; body.appendChild(sub);
+  }
+
+  function renderText(q){
+    var a = A[q.id] || (A[q.id] = {v:""});
+    var t = el("textarea","txt"); t.id = "txt-" + q.id; t.maxLength = 1000; t.placeholder = "자유롭게 적어주세요 (선택)"; t.value = a.v;
+    t.oninput = function(){ a.v = t.value; };
+    body.appendChild(t);
+  }
+
+  function renderLead(){
+    stepEl.textContent = "마지막 단계";
+    prog.style.width = "100%";
+    prev.hidden = true;
+    var h = el("h3","qtitle"); h.id = "qtitle"; h.textContent = S.leadTitle; body.appendChild(h);
+    body.appendChild(el("p","qhint",esc(S.leadDesc)));
+    var f1 = el("div","field",'<label for="ld-name">이름 <span class="opt-l">(선택)</span></label>'); var nm = el("input"); nm.id="ld-name"; nm.autocomplete="name"; nm.maxLength=40; f1.appendChild(nm);
+    var f2 = el("div","field",'<label for="ld-contact">이메일 또는 휴대폰 번호</label>'); var ct = el("input"); ct.id="ld-contact"; ct.autocomplete="email"; ct.inputMode="email"; ct.placeholder="you@example.com 또는 010-0000-0000"; ct.maxLength=80; f2.appendChild(ct);
+    var f3 = el("div","field",'<label>관심 있는 음료 유형 <span class="opt-l">(복수 선택)</span></label>');
+    var chips = el("div","filters"), picks = [];
+    if (type === "wellness" && A.q1 && A.q1.v){ // Q1 답변으로 미리 채움
+      var map = {"저당 / 무당 / 제로 슈가":"제로 슈가","저칼로리 / 제로 칼로리":"제로 칼로리","고단백·식이섬유 등 영양/기능성":"프로틴/고단백","디카페인 / 무카페인":"디카페인","유산균·콤부차 등 장 건강":"발효/콤부차","피로회복·수면 도움":"릴렉스/수면"};
+      A.q1.v.forEach(function(v){ if (map[v]) picks.push(map[v]); });
+    }
+    INTERESTS.forEach(function(lbl){
+      var b = el("button","fchip"); b.type="button"; b.textContent = lbl; b.setAttribute("aria-pressed", picks.indexOf(lbl)>-1 ? "true":"false");
+      b.onclick = function(){ var i = picks.indexOf(lbl); if (i>-1) picks.splice(i,1); else picks.push(lbl); b.setAttribute("aria-pressed", i>-1 ? "false":"true"); };
+      chips.appendChild(b);
+    });
+    f3.appendChild(chips);
+    var cs = el("label","consent"); var cb = el("input"); cb.type="checkbox"; cb.id="ld-consent";
+    cs.appendChild(cb);
+    cs.appendChild(el("span",null,"[필수·연락처 입력 시] 개인정보 수집·이용에 동의합니다. 수집 항목: 이름, 이메일/휴대폰 번호, 관심 음료 유형 · 목적: 서비스 출시 안내 · 보유 기간: 프로젝트 종료(2026년 12월) 후 지체 없이 파기. 동의하지 않으시면 연락처 없이 제출됩니다."));
+    var err = el("p","err"); err.hidden = true;
+    [f1,f2,f3,cs,err].forEach(function(x){ body.appendChild(x); });
+    next.textContent = "알림 받기"; next.disabled = false;
+    var skip = el("button","btn ghost","건너뛰기"); skip.type = "button";
+    prev.hidden = true;
+    if (!foot.querySelector(".skip")){ skip.classList.add("skip"); foot.insertBefore(skip, next); }
+    foot.querySelector(".skip").onclick = function(){ track("lead_skip"); idx++; render(); };
+    next.onclick = function(){
+      var c = ct.value.trim();
+      if (!c){ err.textContent = "연락처를 입력하시거나 ‘건너뛰기’를 눌러주세요."; err.hidden = false; return; }
+      var isMail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c), digits = c.replace(/[^0-9]/g,""), isPhone = /^01[016789]\d{7,8}$/.test(digits);
+      if (!isMail && !isPhone){ err.textContent = "이메일 주소나 휴대폰 번호 형식을 확인해 주세요."; err.hidden = false; return; }
+      if (!cb.checked){ err.textContent = "연락처를 남기시려면 개인정보 수집·이용 동의가 필요해요."; err.hidden = false; return; }
+      next.disabled = true; next.textContent = "보내는 중…";
+      send({kind:"lead", name:nm.value.trim(), email:isMail?c:"", phone:isPhone?digits:"", interests:picks.join(", "), consent:"Y"}).then(function(){
+        track("lead_submit",{channel:isMail?"email":"phone"});
+        A._lead = true; idx++; render();
+      });
+    };
+  }
+
+  function renderDone(){
+    foot.hidden = true; stepEl.textContent = "완료"; prog.style.width = "100%";
+    var d = el("div","done");
+    d.innerHTML = '<div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>' +
+      '<h3 id="qtitle">' + (A._lead ? "사전 신청이 완료됐어요" : "응답이 제출됐어요") + '</h3>' +
+      '<p>' + (A._lead ? "출시 소식을 가장 먼저 보내드릴게요. 소중한 답변 감사합니다." : "소중한 답변 감사합니다. 서비스 기획에 꼭 반영하겠습니다.") + '</p>';
+    var share = el("button","btn ghost","링크 복사해서 공유하기"); share.type="button";
+    share.onclick = function(){
+      var u = location.origin + location.pathname + "?type=" + type + "&utm_source=share";
+      var done = function(){ share.textContent = "링크를 복사했어요"; track("share_copy"); };
+      if (navigator.clipboard) navigator.clipboard.writeText(u).then(done, function(){ share.insertAdjacentText("afterend", u); });
+      else share.insertAdjacentText("afterend", u);
+    };
+    d.appendChild(share);
+    var cl = el("button","btn primary","닫기"); cl.type="button"; cl.style.flex="none"; cl.onclick = close; d.appendChild(cl);
+    body.appendChild(d);
+    if (location.hash !== "#thanks") history.replaceState(null, "", location.pathname + location.search + "#thanks");
+    track("thank_you_view",{lead:!!A._lead});
+  }
+
+  function serialize(){
+    var out = {};
+    S.qs.forEach(function(q){
+      var a = A[q.id];
+      if (q.showIf && !q.showIf(A)) { out[q.id] = ""; return; }
+      if (!a) { out[q.id] = ""; return; }
+      if (q.type === "multi") out[q.id] = a.v.map(function(x){ return x==="기타" ? "기타: " + (a.other||"") : x; }).join(" | ");
+      else if (q.type === "scale") out[q.id] = a.v ? a.v + " (" + a.label + ")" : "";
+      else if (a.v === "기타") out[q.id] = "기타: " + (a.other||"");
+      else out[q.id] = a.v || "";
+    });
+    return out;
+  }
+
+  function send(extra){
+    var payload = Object.assign({rid:RID, variant:type, ts:new Date().toISOString(), ua:navigator.userAgent, ref:document.referrer}, UTM, extra);
+    if (!CONFIG.ENDPOINT){ console.info("[테스트 모드] ENDPOINT 미설정 — 전송 데이터:", payload); return Promise.resolve(); }
+    return fetch(CONFIG.ENDPOINT, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload)})
+      .catch(function(e){ console.warn("전송 실패", e); });
+  }
+
+  function go(d){
+    var V = visibleQs(), n = V.length;
+    if (d > 0 && idx >= 0 && idx < n && !answered(V[idx])) return;
+    if (d > 0 && idx === -1) track("survey_start");
+    if (d > 0 && idx >= 0 && idx < n) track("question_answered",{q:V[idx].id});
+    idx += d;
+    if (d > 0 && idx === n && !sentSurvey){
+      sentSurvey = true;
+      send(Object.assign({kind:"survey"}, serialize()));
+      track("survey_complete");
+    }
+    render();
+    body.scrollTop = 0;
+    var t = document.getElementById("qtitle"); if (t){ t.tabIndex = -1; t.focus({preventScroll:true}); }
+  }
+  prev.onclick = function(){ go(-1); };
+  next.onclick = function(){ go(1); };
+  var _render = render;
+  render = function(){ var s = foot.querySelector(".skip"); if (s && idx !== visibleQs().length) s.remove(); next.onclick = function(){ go(1); }; _render(); };
+})();
+</script>
+</body>
+</html>
